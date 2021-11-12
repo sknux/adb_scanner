@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+echo -e "ADB Scanner.\nIf you are accessing an open network and want have a fun, please run it =)\n"
+
+if [ -z /usr/bin/adb ]
+then
+        sudo apt install adb -y
+fi
+
+if [ -z "$1" ]
+then
+	echo -e "Usage: $0 Your-Network-Range (Ex: 192.168.56)"
+	exit
+fi
+
+adb kill-server && adb tcpip 5555 2>/dev/null
+for i in $(seq 106 108);do adb connect $1.$i:5555;done | grep -v failed
